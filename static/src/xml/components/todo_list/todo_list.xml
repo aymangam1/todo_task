@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="todo_task.TodoList">
+    <div class="input-group my-2">
+        <input type="text" t-model="state.name" placeholder="Task name" class="form-control"/>
+        <input type="color" t-model="state.color" class="form-control form-control-color mx-2" style="width: 3rem;"/>
+        <button class="btn btn-primary" t-on-click="addTask">Add</button>
+    </div>
+
+    <ul class="task-list d-flex flex-column mt-3 p-0 overflow-auto" style="max-height: calc(100vh);">
+<!--    <ul class="task-list d-flex flex-column mt-3 p-0 overflow-auto" style="max-height: calc(100vh - 200px);">-->
+        <t t-foreach="state.tasks" t-as="task" t-key="task.id">
+            <TodoItem task="task" onEdit.bind="editTask" onDelete.bind="deleteTask"/>
+        </t>
+    </ul>
+</t>
+</templates>
