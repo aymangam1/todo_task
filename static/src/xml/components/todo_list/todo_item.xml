@@ -1,7 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 <t t-name="todo_task.TodoItem">
-<li t-attf-style="background-color:{{state.color}}" class="d-flex align-items-center justify-content-between border p-2 rounded mb-2">
+
+<!-- 🚩 حالة الجدول -->
+<tr t-if="props.viewMode === 'table'">
+    <td>
+        <input type="checkbox" class="form-check-input" t-att-checked="state.isCompleted" t-on-click="toggleTask"/>
+    </td>
+
+    <!-- إذا في وضع التعديل -->
+    <td t-if="state.isEditing">
+        <input type="text" class="form-control form-control-sm" t-model="state.name"/>
+    </td>
+    <td t-if="!state.isEditing">
+        <t t-esc="state.name"/>
+    </td>
+
+    <td t-if="state.isEditing">
+        <input type="date" class="form-control form-control-sm" t-model="state.deadline"/>
+    </td>
+    <td t-if="!state.isEditing">
+        <t t-esc="state.deadline"/>
+    </td>
+
+    <td t-if="state.isEditing">
+        <select class="form-select form-select-sm" t-model="state.priority">
+            <option value="0">Low</option>
+            <option value="1">Normal</option>
+            <option value="2">High</option>
+        </select>
+    </td>
+    <td t-if="!state.isEditing">
+        <t t-esc="{'0': 'Low', '1': 'Normal', '2': 'High'}[state.priority]"/>
+    </td>
+
+    <td t-if="state.isEditing">
+        <input type="text" class="form-control form-control-sm" t-model="state.note"/>
+    </td>
+    <td t-if="!state.isEditing">
+        <t t-esc="state.note"/>
+    </td>
+
+    <td>
+        <button t-if="!state.isEditing" class="btn btn-sm btn-primary me-1" t-on-click="editTask">✏️</button>
+        <button t-if="state.isEditing" class="btn btn-sm btn-success me-1" t-on-click="saveTask">✅</button>
+        <button class="btn btn-sm btn-danger" t-on-click="deleteTask">🗑️</button>
+    </td>
+</tr>
+
+<!-- 🚩 باقي الحالات -->
+<li t-if="props.viewMode !== 'table'" t-attf-style="background-color:{{state.color}}" class="d-flex align-items-center justify-content-between border p-2 rounded mb-2">
+
     <div t-if="state.isEditing" class="d-flex flex-column flex-grow-1 me-2">
         <div class="d-flex mb-1">
             <input type="text" class="form-control me-2" t-model="state.name"/>
@@ -42,5 +91,6 @@
         <button class="btn btn-sm btn-danger" t-on-click="deleteTask">🗑️</button>
     </div>
 </li>
+
 </t>
 </templates>

@@ -15,13 +15,54 @@
             <input type="color" t-model="state.color" class="form-control form-control-color" style="height: 2.5rem;" />
         </div>
         <button class="btn btn-primary" t-on-click="addTask">Add</button>
+
+    </div>
+    <div class="btn-group my-2">
+        <button class="btn btn-outline-primary" t-on-click="() => state.viewMode = 'list'">📄 list</button>
+        <button class="btn btn-outline-primary" t-on-click="() => state.viewMode = 'kanban'">📦 kanban</button>
+        <button class="btn btn-outline-primary" t-on-click="() => state.viewMode = 'table'">📊 table</button>
     </div>
 
-    <ul class="task-list d-flex flex-column mt-3 p-0 overflow-auto" style="max-height: 85vh;">
-<!--    <ul class="task-list d-flex flex-column mt-3 p-0 overflow-auto" style="max-height: calc(100vh - 200px);">-->
-        <t t-foreach="state.tasks" t-as="task" t-key="task.id">
-            <TodoItem task="task" onEdit.bind="editTask" onDelete.bind="deleteTask"/>
-        </t>
-    </ul>
+    <t t-if="state.viewMode === 'list'">
+        <ul class="task-list d-flex flex-column mt-3 p-0 overflow-auto" style="max-height: 85vh;">
+            <t t-foreach="state.tasks" t-as="task" t-key="task.id">
+                <TodoItem task="task" onEdit.bind="editTask" onDelete.bind="deleteTask"/>
+            </t>
+        </ul>
+    </t>
+
+    <t t-if="state.viewMode === 'kanban'">
+        <div class="row mt-3">
+            <t t-foreach="state.tasks" t-as="task" t-key="task.id">
+                <div class="col-md-4 mb-3">
+                    <TodoItem task="task" onEdit.bind="editTask" onDelete.bind="deleteTask"/>
+                </div>
+            </t>
+        </div>
+    </t>
+
+
+    <!-- Table -->
+    <table t-if="state.viewMode === 'table'" class="table table-striped">
+        <thead>
+            <tr>
+                <th>✔️</th>
+                <th>Task</th>
+                <th>Deadline</th>
+                <th>Priority</th>
+                <th>Note</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <t t-foreach="state.tasks" t-as="task" t-key="task.id">
+                <TodoItem task="task" onEdit.bind="editTask" onDelete.bind="deleteTask" viewMode="'table'"/>
+            </t>
+        </tbody>
+    </table>
+
+
+
+
 </t>
 </templates>

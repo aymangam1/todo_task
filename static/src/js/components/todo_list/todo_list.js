@@ -20,6 +20,7 @@ export class TodoList extends Component {
             deadline: null,
             priority: '1',
             note: '',
+            viewMode: "list",
         });
 
         this.busService.addChannel("todo_task_channel");
@@ -50,6 +51,7 @@ export class TodoList extends Component {
         const records = await this.orm.searchRead("todo.task", [], [
             "id", "name", "color", "is_completed", "deadline", "priority", "note"
         ]);
+
         const newTasks = records.map(r => ({
             id: r.id,
             name: r.name,
