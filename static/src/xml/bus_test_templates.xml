@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="bus_test.ClientAction">
+        <!-- bus_test.ClientAction -->
+        <div>
+            <h3>Bus Test Notifications</h3>
+            <div id="bus-log">
+                <t t-foreach="state.messageLog" t-as="msg" t-key="msg">
+                    <p>
+                        <t t-esc="msg"/>
+                    </p>
+                </t>
+            </div>
+        </div>
+
+    </t>
+</templates>

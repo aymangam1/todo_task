@@ -10,12 +10,18 @@ export class TodoItem extends Component {
         this.state = useState({
             isEditing: false,
             ...this.props.task,
+            deadline: this.props.task.deadline || null,
+            priority: this.props.task.priority || '1',
+            note: this.props.task.note || '',
         });
     }
 
-    toggleTask() {
+
+    async toggleTask() {
         this.state.isCompleted = !this.state.isCompleted;
+        await this.saveTask();
     }
+
 
     editTask() {
         this.state.isEditing = true;
@@ -28,8 +34,12 @@ export class TodoItem extends Component {
             name: this.state.name,
             color: this.state.color,
             isCompleted: this.state.isCompleted,
+            deadline: this.state.deadline,
+            priority: this.state.priority,
+            note: this.state.note,
         });
     }
+
 
     async deleteTask() {
         this.props.onDelete(this.props.task);

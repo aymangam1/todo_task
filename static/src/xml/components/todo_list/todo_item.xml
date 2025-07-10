@@ -2,16 +2,40 @@
 <templates xml:space="preserve">
 <t t-name="todo_task.TodoItem">
 <li t-attf-style="background-color:{{state.color}}" class="d-flex align-items-center justify-content-between border p-2 rounded mb-2">
-    <div t-if="state.isEditing" class="d-flex flex-grow-1 me-2">
-        <input type="text" class="form-control me-2" t-model="state.name"/>
-        <input type="color" class="form-control form-control-color" style="width: 3rem;" t-model="state.color"/>
+    <div t-if="state.isEditing" class="d-flex flex-column flex-grow-1 me-2">
+        <div class="d-flex mb-1">
+            <input type="text" class="form-control me-2" t-model="state.name"/>
+            <input type="color" class="form-control form-control-color" style="width: 3rem;" t-model="state.color"/>
+        </div>
+        <div class="d-flex mb-1">
+            <input type="date" class="form-control me-2" t-model="state.deadline"/>
+            <select class="form-select" t-model="state.priority">
+                <option value="0">Low</option>
+                <option value="1">Normal</option>
+                <option value="2">High</option>
+            </select>
+        </div>
+        <textarea class="form-control" rows="2" placeholder="Note" t-model="state.note"/>
     </div>
-    <div t-if="!state.isEditing" class="form-check form-switch flex-grow-1">
-        <input class="form-check-input" type="checkbox" t-att-checked="state.isCompleted" t-on-click="toggleTask"/>
-        <label t-attf-class="{{state.isCompleted ? 'text-decoration-line-through' : ''}}">
-            <t t-esc="state.name"/>
-        </label>
+
+    <div t-if="!state.isEditing" class="flex-grow-1">
+        <div class="form-check form-switch mb-1">
+            <input class="form-check-input" type="checkbox" t-att-checked="state.isCompleted" t-on-click="toggleTask"/>
+            <label t-attf-class="{{state.isCompleted ? 'text-decoration-line-through' : ''}}">
+                <t t-esc="state.name"/>
+            </label>
+        </div>
+        <div class="small text-muted">
+            <t t-if="state.deadline">📅 <t t-esc="state.deadline"/></t>
+            <t t-if="state.priority"> | 🔥
+                <t t-esc="{'0': 'Low', '1': 'Normal', '2': 'High'}[state.priority]"/>
+            </t>
+        </div>
+        <div class="small text-secondary" t-if="state.note">
+            📝 <t t-esc="state.note"/>
+        </div>
     </div>
+
     <div>
         <button t-if="!state.isEditing" class="btn btn-sm btn-primary me-1" t-on-click="editTask">✏️</button>
         <button t-if="state.isEditing" class="btn btn-sm btn-success me-1" t-on-click="saveTask">✅</button>

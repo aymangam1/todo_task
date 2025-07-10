@@ -8,11 +8,14 @@
     "data": [
         "security/ir.model.access.csv",
         "views/todo_views.xml",
+        "views/todo_task_views.xml",
     ],
     "assets": {
         "web.assets_backend": [
             "todo_task/static/src/js/**/*.js",
             "todo_task/static/src/xml/**/*.xml",
+            'todo_task/static/src/js/bus_test_component.js',
+            'todo_task/static/src/xml/bus_test_templates.xml',
         ],
     },
     'author': "OdooX",
